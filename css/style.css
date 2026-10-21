@@ -1,0 +1,504 @@
+/* =========================================================================
+   Jake's Imagination Control
+   Five scenes, picked purely by viewport width. Each scene is laid out in
+   its own unit (--u) so it scales with the window and never overflows.
+   ========================================================================= */
+
+:root {
+  --jake: #FEB825;
+  --jake-light: #FEE341;
+  --ink: #15161a;
+  --red: #e61e21;
+
+  --font-display: wigwag-bold, "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  --font-deluxe: wigwag-deluxe, "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: bebas-neue-pro, "Arial Narrow", system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--font-display);
+  font-weight: 400;
+  background: var(--jake);
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg, video { display: block; max-width: none; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-weight: 700; }
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* Only one scene is ever rendered. */
+.scene { display: none; }
+
+/* -------------------------------------------------------------------------
+   Scene 1 · width > 1200px · Jake's face
+   ------------------------------------------------------------------------- */
+@media (width > 1200px) {
+  body { background: var(--jake); }
+
+  .scene-face {
+    /* 1 unit = 1vw, but shrink on short windows so the whole face fits */
+    --u: min(1vw, 1.65svh);
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    min-height: 100svh;
+    overflow: clip;
+  }
+}
+
+.face {
+  position: relative;
+  width: calc(86 * var(--u));
+  height: calc(37 * var(--u));
+}
+
+.face__eyes {
+  position: absolute;
+  left: calc(13 * var(--u));
+  top: 0;
+  width: calc(60 * var(--u));
+  height: auto;
+  transition: transform .25s ease;
+}
+.face__eyes:hover { transform: scale(1.033); }
+
+.face__base {
+  position: absolute;
+  left: 0;
+  top: calc(12.7 * var(--u));
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.face__nose {
+  position: absolute;
+  left: calc(37 * var(--u));
+  top: calc(16.8 * var(--u));
+  width: calc(12 * var(--u));
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: 50%;
+  animation: nose-bob 1.2s ease-in-out infinite;
+}
+.face__nose img { width: 100%; height: auto; }
+
+@keyframes nose-bob {
+  50% { transform: translateY(calc(-1 * var(--u))); }
+}
+
+.face__instruction {
+  min-height: 1.3em;               /* reserve space: no layout shift when text appears */
+  margin-top: calc(3.6 * var(--u));
+  font-size: calc(3.3 * var(--u));
+  letter-spacing: var(--u);
+  text-align: center;
+  color: #fff;
+}
+
+/* -------------------------------------------------------------------------
+   Scene 2 · 1025–1200px · BMO control room
+   ------------------------------------------------------------------------- */
+@media (1024px < width <= 1200px) {
+  body { background: #37A693; }
+
+  .scene-bmo {
+    --u: min(1vw, 1.45svh);
+    display: grid;
+    place-items: center;
+    min-height: 100svh;
+    overflow: clip;
+  }
+  body.is-raining .rain { display: block; }
+}
+
+.rain {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  background: #2c4a44;
+}
+
+.bmo-board {
+  position: relative;
+  z-index: 1;
+  width: calc(100 * var(--u));
+  height: calc(64 * var(--u));
+}
+
+.bmo {
+  position: absolute;
+  left: calc(10 * var(--u));
+  top: calc(4 * var(--u));
+  width: calc(40.4 * var(--u));
+  height: calc(54.4 * var(--u));
+  background: var(--jake);
+  border: 2px solid #000;
+  border-radius: calc(5 * var(--u));
+}
+
+.bmo__screen {
+  position: absolute;
+  left: calc(3.1 * var(--u));
+  top: calc(3 * var(--u));
+  width: calc(33.7 * var(--u));
+  height: calc(22.7 * var(--u));
+  border: 4px solid #000;
+  border-radius: calc(2 * var(--u));
+  overflow: hidden;
+  background: #1d3b35;
+}
+.bmo__screen iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+.bmo__play {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.bmo__play img { width: 100%; height: 100%; object-fit: cover; }
+.bmo__play-icon {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: calc(6 * var(--u));
+  height: calc(4.2 * var(--u));
+  border-radius: calc(1.2 * var(--u));
+  background: var(--red);
+  transition: transform .2s ease;
+}
+.bmo__play-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: calc(1 * var(--u)) 0 calc(1 * var(--u)) calc(1.7 * var(--u));
+  border-color: transparent transparent transparent #fff;
+  transform: translateX(10%);
+}
+.bmo__play:hover .bmo__play-icon,
+.bmo__play:focus-visible .bmo__play-icon { transform: scale(1.1); }
+
+.bmo__jake {
+  position: absolute;
+  left: calc(3.2 * var(--u));
+  top: calc(27.9 * var(--u));
+  width: calc(34 * var(--u));
+  height: auto;
+}
+
+.bmo__buttons {
+  position: absolute;
+  left: calc(.2 * var(--u));
+  top: calc(36.8 * var(--u));
+  width: calc(34 * var(--u));
+  height: calc(18 * var(--u));
+  overflow: visible;
+}
+.bmo__buttons :is(rect, circle) {
+  stroke: var(--ink);
+  stroke-width: .36;
+  transition: fill .15s ease;
+}
+.bmo__buttons circle { cursor: pointer; }
+.bmo__buttons circle:hover,
+.bmo__buttons circle:focus-visible { fill: var(--jake-light); outline: none; }
+
+.control-panel__title {
+  color: var(--jake-light);
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.btn {
+  display: inline-block;
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+.control-panel--bmo {
+  position: absolute;
+  left: calc(58 * var(--u));
+  top: calc(6.7 * var(--u));
+  width: calc(30 * var(--u));
+}
+.control-panel--bmo .control-panel__title {
+  font-size: calc(2.9 * var(--u));
+  letter-spacing: calc(.36 * var(--u));
+}
+.control-panel--bmo .control-panel__buttons {
+  display: flex;
+  gap: calc(2.3 * var(--u));
+  margin-top: calc(4.8 * var(--u));
+}
+.control-panel--bmo .btn {
+  font-size: max(12px, calc(1.45 * var(--u)));
+  padding: calc(.3 * var(--u)) calc(2.9 * var(--u));
+  border: max(2px, calc(.36 * var(--u))) solid var(--ink);
+}
+.control-panel--bmo .btn--on { background: #d42f33; }
+.control-panel--bmo .btn--off { background: #a4d081; }
+
+.control-panel__status {
+  min-height: 1.2em;
+  margin-top: calc(1.6 * var(--u));
+  font-size: calc(2.5 * var(--u));
+  white-space: nowrap;
+  letter-spacing: .1em;
+  color: #fff;
+}
+
+.info {
+  position: absolute;
+  left: calc(56.7 * var(--u));
+  top: calc(33 * var(--u));
+  width: calc(34 * var(--u));
+  height: calc(24 * var(--u));
+  padding: calc(2 * var(--u));
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: #D0E5D3;
+  border-radius: calc(2 * var(--u));
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: max(13px, calc(1.94 * var(--u)));
+  line-height: 1.2;
+}
+.info p + p { margin-top: 1.2em; }
+.info a { color: #c78400; font-weight: 700; text-decoration: none; }
+.info a:hover { text-decoration: underline; }
+.info__stretch {
+  color: var(--red);
+  transition: letter-spacing .3s ease, color .3s ease;
+}
+.info__stretch:hover { letter-spacing: .2em; color: var(--jake); }
+
+/* -------------------------------------------------------------------------
+   Scene 3 · 751–1024px · Stretchy Jake (the page may scroll here on purpose)
+   ------------------------------------------------------------------------- */
+@media (750px < width <= 1024px) {
+  body { background: #a1dfeb; }
+
+  .scene-stretch {
+    display: block;
+    min-height: 100svh;
+    padding-top: 40vw;
+    padding-bottom: 10vw;
+  }
+}
+
+.control-panel--stretch {
+  position: fixed;
+  left: 15vw;
+  top: 4vw;
+  z-index: 40;
+  width: 30vw;
+}
+.control-panel--stretch .control-panel__title {
+  font-size: 3.5vw;
+  letter-spacing: .44vw;
+}
+.control-panel--stretch .control-panel__buttons {
+  display: flex;
+  gap: 2.6vw;
+  margin-top: 5.8vw;
+}
+.control-panel--stretch .btn {
+  font-size: 16px;
+  padding: 5px 32px;
+  border: 0;
+  background: var(--jake-light);
+  color: var(--ink);
+}
+
+.stretch-torso {
+  position: relative;
+  z-index: 20;
+  width: 70vw;
+  height: 30vw;
+  margin-inline: auto;
+  overflow: hidden;
+  background: var(--jake);
+  border: 2px solid #000;
+  border-radius: 8vw;
+  transition: width 1s ease, height 1s ease, border-radius 1s ease;
+}
+/* Hover (mouse) or tap (touch) to stretch Jake out */
+@media (hover: hover) {
+  .stretch-torso:hover {
+    width: 300vw;
+    height: 340vw;
+    border-radius: 55vw;
+    transition-duration: 5s;
+  }
+}
+.stretch-torso.is-open {
+  width: 300vw;
+  height: 340vw;
+  border-radius: 55vw;
+  transition-duration: 5s;
+}
+
+.stretch-torso > *,
+.stretch-torso picture > img { position: absolute; }
+.stretch-torso picture { display: contents; }
+
+.stretch-torso__face  { left: 35vw; top: 5.2vw;  width: 30vw; height: auto; }
+.stretch-torso__audio { left: 90vw; top: 37vw;   width: max(300px, 33vw); }
+.stretch-torso__lady  { left: 20vw; top: 57vw;   width: 140vw; height: auto; }
+.stretch-torso__house { left: 20vw; top: 115vw;  height: 220vw; width: auto; }
+.stretch-torso__hint  {
+  left: 8vw; top: 292vw;
+  font-family: var(--font-deluxe);
+  font-size: 5.6vw;
+  letter-spacing: .2em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: #fff;
+}
+.stretch-torso__finn  { left: 80vw; top: 280vw;  height: 40vw; width: auto; }
+
+/* -------------------------------------------------------------------------
+   Scene 4 · 415–750px · The floor is lava
+   ------------------------------------------------------------------------- */
+@media (414px < width <= 750px) {
+  body { background: #6c256f; }
+
+  .scene-lava {
+    display: block;
+    position: relative;
+    height: 395vw;
+    overflow: clip;
+  }
+}
+
+.lava-torso {
+  position: absolute;
+  z-index: 2;
+  left: 15vw;
+  top: 15vw;
+  width: 60vw;
+  height: 40vw;
+  background: var(--jake);
+  border: 2px solid #000;
+  border-radius: 20vw;
+}
+.lava-torso img {
+  width: 30vw;
+  height: auto;
+  margin: 5vw 0 0 10vw;
+}
+
+.lava-legs {
+  position: absolute;
+  z-index: 1;
+  left: 29vw;
+  top: 31.5vw;
+  width: 56vw;
+  height: auto;
+}
+
+.lava-pool { position: absolute; z-index: 0; height: auto; }
+.lava-pool--1 { left: -30vw; top: 168vw; width: 80vw; }
+.lava-pool--2 { left: 2vw;   top: 299vw; width: 96vw; }
+
+.lava-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 231vw;
+  text-align: center;
+  font-family: var(--font-deluxe);
+  font-size: 7vw;
+  letter-spacing: .2em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #ff8433;
+}
+.lava-floor span { font-size: 3em; line-height: 1.05; letter-spacing: .1em; }
+
+/* -------------------------------------------------------------------------
+   Scene 5 · width ≤ 414px · "use a computer" notice
+   ------------------------------------------------------------------------- */
+@media (width <= 414px) {
+  body { background: #B3B4FD; }
+
+  .scene-intro {
+    display: block;
+    min-height: 100svh;
+    padding: 20svh 5vw 0;
+  }
+}
+
+.scene-intro p {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 8.5vw, 32px);
+  line-height: 1.15;
+  color: var(--jake-light);
+  text-shadow: 0 2px 0 rgb(108 37 111 / .35);
+}
+
+/* -------------------------------------------------------------------------
+   Toast (replaces the old blocking alert())
+   ------------------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  top: 24px;
+  z-index: 100;
+  max-width: calc(100vw - 32px);
+  padding: 14px 24px;
+  translate: -50% 0;
+  background: var(--red);
+  color: #fff;
+  border: 4px solid var(--ink);
+  font-size: clamp(16px, 2vw, 26px);
+  letter-spacing: .08em;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: 0 6px 0 var(--ink);
+  animation: toast-in .25s ease-out;
+}
+.toast[hidden] { display: none; }
+
+@keyframes toast-in {
+  from { translate: -50% -20px; opacity: 0; }
+}
+
+/* -------------------------------------------------------------------------
+   Respect reduced-motion preferences
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .face__nose { animation: none; }
+  .toast { animation: none; }
+  .stretch-torso,
+  .stretch-torso:hover,
+  .stretch-torso.is-open { transition-duration: .01s; }
+}

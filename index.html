@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jake's Imagination Control</title>
+  <meta name="description" content="Jake's Imagination Control V2.1.28 — a responsive web toy. Squeeze the browser window and see what happens.">
+  <meta name="theme-color" content="#FEB825">
+  <link rel="icon" href="assets/nose.svg" type="image/svg+xml">
+
+  <!-- Adobe Fonts kit: preconnect + non-blocking load so text never waits on it -->
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin>
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin>
+  <link rel="stylesheet" href="https://use.typekit.net/keq7jge.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://use.typekit.net/keq7jge.css"></noscript>
+
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+<main class="stage">
+
+  <!-- ============ Scene 1 · wider than 1200px · Jake's face ============ -->
+  <section class="scene scene-face" aria-label="Jake's face">
+    <div class="face">
+      <img class="face__eyes" src="assets/eyes.svg" alt="" width="688" height="308" decoding="async">
+      <img class="face__base" src="assets/jake_open_base.svg" alt="Jake the Dog's face" width="997" height="282" decoding="async" fetchpriority="high">
+      <button class="face__nose" type="button" data-action="boop" aria-label="Boop Jake's nose">
+        <img src="assets/nose.svg" alt="" width="118" height="79" decoding="async">
+      </button>
+    </div>
+    <h2 class="face__instruction" data-instruction aria-live="polite"></h2>
+  </section>
+
+  <!-- ============ Scene 2 · 1025–1200px · BMO control room ============ -->
+  <section class="scene scene-bmo" aria-label="Jake's Imagination Control">
+    <video class="rain" muted loop playsinline preload="none" data-poster="assets/knife-rain-poster.jpg" aria-hidden="true" tabindex="-1" data-rain>
+      <source data-src="assets/knife-rain.mp4" type="video/mp4">
+      <source data-src="assets/knife-rain.webm" type="video/webm">
+    </video>
+
+    <div class="bmo-board">
+      <div class="bmo">
+        <div class="bmo__screen" data-video="Okdac8XwP_U">
+          <button class="bmo__play" type="button" aria-label="Play the Adventure Time video">
+            <img src="https://i.ytimg.com/vi/Okdac8XwP_U/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async" onerror="this.remove()">
+            <span class="bmo__play-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+        <img class="bmo__jake" src="assets/jake_big.svg" alt="Jake's face on BMO" width="997" height="409" loading="lazy" decoding="async">
+        <svg class="bmo__buttons" viewBox="0 0 34 18" aria-hidden="false" role="group" aria-label="BMO buttons">
+          <rect x="6" y="8" width="12" height="2" fill="#004731"/>
+          <circle cx="28" cy="9" r="1" fill="#003A74"/>
+          <circle cx="30" cy="14" r="0.8" fill="#81B561"/>
+          <rect x="6" y="12" rx="1" ry="1" width="6" height="2" fill="#00495C"/>
+          <rect x="14" y="12" rx="1" ry="1" width="6" height="2" fill="#00495C"/>
+          <circle class="bmo__red" cx="26" cy="12.5" r="2" fill="#e61e21" data-action="warn" tabindex="0" role="button" aria-label="Big red button"/>
+        </svg>
+      </div>
+
+      <div class="control-panel control-panel--bmo">
+        <h1 class="control-panel__title">Jake's Imagination Control</h1>
+        <div class="control-panel__buttons">
+          <button type="button" class="btn btn--on" data-action="rain-on">ON</button>
+          <button type="button" class="btn btn--off" data-action="rain-off">OFF</button>
+        </div>
+        <p class="control-panel__status" data-status aria-live="polite"></p>
+      </div>
+
+      <div class="info" tabindex="0" aria-label="Welcome message">
+        <p>&gt; Welcome to Jake's Imagination Control V2.1.28.<br>
+          <a href="https://adventuretime.fandom.com/wiki/Jake" target="_blank" rel="noopener">Jake</a>
+          has <span class="info__stretch">stretch power</span>, yeahbaby woo!</p>
+        <p>&gt; Be careful when you're messing with his imagination.
+          Previous trials have caused irreversible damage
+          when Jake imagined the container machine burning down.</p>
+        <p>&gt; Your computer may meet the same fate.</p>
+        <p>&gt; But you should be safe.
+          Unless the machine and you are one and the same.</p>
+        <p>&gt; When in doubt: refresh, restart, and drink some water.</p>
+        <p>&gt; ABORT when you're told to.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Scene 3 · 751–1024px · Stretchy Jake ============ -->
+  <section class="scene scene-stretch" aria-label="Stretchy Jake">
+    <div class="control-panel control-panel--stretch">
+      <h2 class="control-panel__title">Jake's Imagination Control</h2>
+      <div class="control-panel__buttons">
+        <button type="button" class="btn btn--on" data-action="stretch-on">ON</button>
+        <button type="button" class="btn btn--off" data-action="stretch-off">OFF</button>
+      </div>
+    </div>
+
+    <div class="stretch-torso" data-stretch>
+      <img class="stretch-torso__face" src="assets/jakeFace.svg" alt="Jake's face" width="805" height="299" loading="lazy" decoding="async">
+      <audio class="stretch-torso__audio" controls preload="none">
+        <source src="assets/AdventureTime.mp3" type="audio/mpeg">
+      </audio>
+      <picture>
+        <source srcset="assets/rainicorn.webp" type="image/webp">
+        <img class="stretch-torso__lady" src="assets/rainicorn.png" alt="Lady Rainicorn" width="900" height="360" loading="lazy" decoding="async">
+      </picture>
+      <picture>
+        <source srcset="assets/house.webp" type="image/webp">
+        <img class="stretch-torso__house" src="assets/house.png" alt="The Tree Fort" width="1415" height="1478" loading="lazy" decoding="async">
+      </picture>
+      <h3 class="stretch-torso__hint">Keep squeezing<br>and you'll be in<br>trouble</h3>
+      <picture>
+        <source srcset="assets/finn.webp" type="image/webp">
+        <img class="stretch-torso__finn" src="assets/finn.png" alt="Finn" width="553" height="900" loading="lazy" decoding="async">
+      </picture>
+    </div>
+  </section>
+
+  <!-- ============ Scene 4 · 415–750px · The floor is lava ============ -->
+  <section class="scene scene-lava" aria-label="The floor is lava">
+    <div class="lava-torso">
+      <img src="assets/jakeFace.svg" alt="Jake's face" width="805" height="299" loading="lazy" decoding="async">
+    </div>
+    <img class="lava-legs" src="assets/Leg1.svg" alt="Jake's very long legs" width="664" height="1808" loading="lazy" decoding="async">
+    <picture>
+      <source srcset="assets/lava.webp" type="image/webp">
+      <img class="lava-pool lava-pool--1" src="assets/lava.png" alt="" width="808" height="429" loading="lazy" decoding="async">
+    </picture>
+    <h2 class="lava-floor">The floor is<br><span>Lava!</span><br>Abort! Abort!</h2>
+    <picture>
+      <source srcset="assets/lava2.webp" type="image/webp">
+      <img class="lava-pool lava-pool--2" src="assets/lava2.png" alt="" width="518" height="429" loading="lazy" decoding="async">
+    </picture>
+  </section>
+
+  <!-- ============ Scene 5 · 414px and below · intro ============ -->
+  <section class="scene scene-intro" aria-label="Notice">
+    <p>The Portal to Jake's Imagination Control is accessible on PC.
+      Open this page on your computer and proceed with caution.</p>
+  </section>
+
+</main>
+
+<div class="toast" data-toast role="alert" hidden>Do not abuse Jake's Imagination Control</div>
+</body>
+</html>
